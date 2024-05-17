@@ -48,9 +48,18 @@ void setup() {
 
 void loop() {
   
-  int analogValue = analogRead(analogPin);
+  if (Serial.available() > 0) {
 
-  String data = "value=" + String(analogValue);
+  String data = Serial.readStringUntil('\n');
+  Serial.println("Received: " + data);
+  
+  int tempIndex = data.indexOf("T:") + 2;
+  int humidityIndex = data.indexOf(",H:") + 3;
+  
+  String temperature = data.substring(tempIndex, data.indexOf(',', tempIndex));
+  String humidity = data.substring(humidityIndex);
+    
+  String data = "value=" + String(temperature) + String(humidity);
 
   Serial.print("Connecting to ");
   Serial.print(host);
@@ -96,5 +105,6 @@ void loop() {
   Serial.println("Closing connection");
   client.stop();
 
-  delay(10000);  
+  delay(10000);
+  }  
 }
