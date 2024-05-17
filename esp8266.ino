@@ -1,28 +1,3 @@
-# capolavoro 2023/2024
-
-## Indice
-1. [Schema](#Schema)
-2. [Codice](#Codice)
-
-   
-# Schema
-![image](./resources/tinkercad_scheme.png)
-
-
-
-
-
-# Codice
-
-### aurduinoR1.ino
-```
-
-```
-
-
-### esp8266.ino
-
-```
 
 /*
 
@@ -123,5 +98,3 @@ void loop() {
 
   delay(10000);  
 }
-
-```
