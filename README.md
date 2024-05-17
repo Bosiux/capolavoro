@@ -1,8 +1,11 @@
-# capolavoro 2023/2024
+# Capolavoro 2023/2024
 
-## Indice
+# Indice
 1. [Schema](#Schema)
 2. [Codice](#Codice)
+3. [Realizzazione](#Realizzazione)
+4. [Montaggio](#Montaggio)
+
 
    
 # Schema
@@ -174,3 +177,26 @@ void loop() {
 }
 
 ```
+
+# Realizzazione
+### Per il processo di realizzazione del pezzo mi sono rivolto all'azienda [Alberici Stampi](https://www.albericistampi.it)
+![](./resources/realizzazione-1.jpg)
+![](./resources/realizzazione-2.jpg)
+![](./resources/realizzazione-3.jpg)
+
+# Montaggio
+### Per il processo di montaggio si è cercato di seguire lo [schema elettrico](#Schema)
+
+![](./resources/montaggio-1.jpg)
+![](./resources/montaggio-2.jpg)
+![](./resources/cablagio.jpg)
+
+
+### Per stabilizzare la tensione fornita dai pannelli solari a 5v è stato necessario l'utilizzo di uno stabilizzatore di tensione posizionato sul lato del pezzo, il tutto al fine di non danneggiare i sensori e componenti.
+### Il codice per entrambi i micro-controllori è stato caricato singolarmente per poi alimentare il tutto con una pila 9v
+
+
+
+
+
+[vai all'indice](#Indice)
