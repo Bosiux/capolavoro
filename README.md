@@ -140,6 +140,8 @@ void loop() {
 
 
 # Server
+Lo script [server.py](./server/server.py) si occupa di ricevere le informazioni, dividerle e salvarle in un file data.csv.
+Npm si occupa invece di hostare un sito web, quest'ultimo utilizza [chart.js](https://www.chartjs.org) per mostrare i dati salvati escludendo gli errori di registrazione.
 
 
 
