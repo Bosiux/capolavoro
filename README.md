@@ -5,7 +5,7 @@
 2. [Codice](#Codice)
 3. [Realizzazione](#Realizzazione)
 4. [Montaggio](#Montaggio)
-
+5. [Server](#Server)
 
    
 # Schema
@@ -17,29 +17,32 @@
 
 # Codice
 
-### aurduinoR1.ino
+### aurduinoR1.ino [link](./aurduinoR1/aurduinoR1.ino)
 ```
-
 #include <DHT.h>
 
-#define DHTPIN A1 // analog pin A1
-#define MOISTURE_SENSOR_PIN A0
+#define DHTPIN A0
 #define DHTTYPE DHT11
+#define MOISTURE A1
+int light;
 
-// DHT11: DATA-5V-GND FRONT-VIEW
 DHT dht(DHTPIN, DHTTYPE);
 
 void setup() {
+  pinMode(MOISTURE,  INPUT);
+  pinMode(DHTPIN,  INPUT);
   Serial.begin(9600);
-  delay(1000); 
+  delay(500); 
   Serial.println("Avvio sistema");
   dht.begin();
 }
 
 void loop() {
-  delay(1500);
-  int sensorValue = analogRead(MOISTURE_SENSOR_PIN);
-  float moidtureHumidity = map(sensorValue, 0, 1023, 0, 100);
+  delay(500);
+
+  int moistureValue = analogRead(MOISTURE);
+  int moisturePercentage = map(moistureValue, 0, 1023, 0, 100);
+  moisturePercentage = constrain(moisturePercentage, 0, 100);
   float humidity = dht.readHumidity();
   float temperature = dht.readTemperature();
 
@@ -48,72 +51,40 @@ void loop() {
     return;
   }
 
-  if (temperature > 20) {
-    digitalWrite(5, HIGH);
-  }
-
   Serial.print("Humidity: ");
   Serial.print(humidity);
   Serial.print(" %\t");
   Serial.print("Temperature: ");
   Serial.print(temperature);
-  Serial.println(" *C");
-  Serial.print("Soil Humidity: ");
-  Serial.print(moidtureHumidity);
-  Serial.println(" %");
-
-  // Send temperature and humidity to ESP8266
-  Serial.print("T:");
-  Serial.print(temperature);
-  Serial.print(",H:");
-  Serial.println(humidity);
+  Serial.print(" *C");
+  Serial.print(" \t");
+  Serial.print("Tstatus: ");
+  Serial.println(moisturePercentage);
 }
 
-```
-
-
-### esp8266.ino
 
 ```
 
-/*
 
-    Esempi usati:
-        ESP8266 -> WifiClient
-        ESP8266HTTPClient -> PostHttpClient
+### esp8266.ino [link](./esp8266/esp8266.ino)
 
-*/
-
+```
 #include <ESP8266WiFi.h>
 
-
-#ifndef STASSID
-#define STASSID "#########"
-#define STAPSK "#########"
-#endif
-
-const char* ssid = STASSID;
-const char* password = STAPSK;
-
-// Server 
-const char* host = "135.125.132.97";
-const uint16_t port = 5000;
-
-
-const int analogPin = A0;  
+const char* ssid = "##########";         // Replace with your network SSID
+const char* password = "##########"; // Replace with your network password
+const char* host = "dbosio.space";      // Server hostname
+const int port = 5000;                  // Server port
+WiFiClient client;
 
 void setup() {
-  Serial.begin(115200);
-
-  
+  Serial.begin(9600); 
   Serial.println();
   Serial.println();
   Serial.print("Connecting to ");
   Serial.println(ssid);
-
-  WiFi.mode(WIFI_STA);
+  
   WiFi.begin(ssid, password);
-
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.print(".");
@@ -121,59 +92,31 @@ void setup() {
 
   Serial.println("");
   Serial.println("WiFi connected");
+  Serial.println("IP address: ");
+  Serial.println(WiFi.localIP());
 }
 
 void loop() {
-  
-  int analogValue = analogRead(analogPin);
-
-  String data = "value=" + String(analogValue);
-
-  Serial.print("Connecting to ");
-  Serial.print(host);
-  Serial.print(':');
-  Serial.println(port);
-
-  WiFiClient client;
-  if (!client.connect(host, port)) {
-    Serial.println("Connection failed");
-    delay(10000); 
-    return;
-  }
-
-  Serial.println("Sending data to server");
-  if (client.connected()) {
-    client.print("GET /update?");
-    client.print(data);
-    client.println(" HTTP/1.1");
-    client.print("Host: ");
-    client.println(host);
-    client.println("Connection: close");
-    client.println();
-  }
-
-  unsigned long timeout = millis();
-  while (client.available() == 0) {
-    if (millis() - timeout > 5000) {
-      Serial.println(">>> Client Timeout !");
-      client.stop();
-      delay(10000); 
+  if (Serial.available()) {
+    String data = Serial.readStringUntil('\n');
+    Serial.print("Received data: "); 
+    Serial.println(data);
+    
+    if (!client.connect(host, port)) {
+      Serial.println("Connection to server failed");
       return;
     }
+
+    client.print(data);
+    while (client.connected()) {
+      if (client.available()) {
+        String line = client.readStringUntil('\n');
+        Serial.println(line);
+        break;
+      }
+    }
+    client.stop();
   }
-
-  Serial.println("Receiving from remote server");
-  while (client.available()) {
-    char ch = static_cast<char>(client.read());
-    Serial.print(ch);
-  }
-
-
-  Serial.println();
-  Serial.println("Closing connection");
-  client.stop();
-
-  delay(10000);  
 }
 
 ```
@@ -196,6 +139,7 @@ void loop() {
 ### Il codice per entrambi i micro-controllori è stato caricato singolarmente per poi alimentare il tutto con una pila 9v
 
 
+# Server
 
 
 

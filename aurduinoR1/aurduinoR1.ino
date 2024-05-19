@@ -3,11 +3,7 @@
 #define DHTPIN A0
 #define DHTTYPE DHT11
 #define MOISTURE A1
-
-
 int light;
-
-// DHT11: DATA-5V-GND FRONT-VIEW
 
 DHT dht(DHTPIN, DHTTYPE);
 
@@ -33,9 +29,6 @@ void loop() {
     Serial.println("Failed to read from DHT sensor!");
     return;
   }
-
- 
-
 
   Serial.print("Humidity: ");
   Serial.print(humidity);
