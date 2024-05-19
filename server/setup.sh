@@ -1,18 +1,25 @@
-###### Script per sistemi basati su debian ######
+#!/bin/bash
 
 # install npm
-sudo apt install npm -y
+if ! command -v npm &> /dev/null; then
+    echo "npm command not found. Installing npm..."
+    sudo apt install npm tmux -y
+fi
 
-# inizializza il progetto
-npm init -y
+if [ ! -d "node_modules" ]; then
+    echo "node_modules directory does not exist. Initializing the project..."
+    npm init -y
+    npm install express
+    npm install chart.js
 
-# installa librerie express e chart
-npm install express
-npm install chart.js
+fi
 
 
-# aprire la porta 3000 del firewall
-sudo ufw allow 3000 
+if ! sudo ufw status | grep -q '3000'; then
+    sudo ufw allow 3000
+    sudo ufw allow 5120
+fi
  
 # avvia il sito web
-node server.js
+tmux new-session -d -s npm_session 'npm start'
+tmux new-session -d -s python_session 'python3 server.py'

@@ -23,3 +23,87 @@ body, html {
     font-family: 'VayuSans', Arial, sans-serif;
 }
 
+.advices {
+    margin-left: 10dvh;
+    border: 1px solid #ccc;
+    border-radius: 1%;
+    padding: 20px;
+    text-align: center;
+    width: 50dvh;
+    height: fit-content;
+    background-color: white;
+}
+
+
+.item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 20px;
+}
+
+.item img {
+    width: 80px; /* Adjust as needed */
+    height: auto; /* Maintain aspect ratio */
+    margin-right: 20px;
+}
+
+.item > div {
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.item h1 {
+    margin: 0;
+}
+
+.item p {
+    margin: 0;
+}
+
+
+.temperatura-img {
+    max-width: 80px;
+    max-height: 80px;
+}
+.acqua-img {
+    max-width: 80px;
+    max-height: 80px;
+}
+.umidita-img {
+    max-width: 80px;
+    max-height: 80px;
+}
+
+@media screen and (max-width: 1000px) {
+    body, html {
+        height: 100%;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #166D4E;
+    }
+    .advices {
+        visibility: hidden;
+        width: 0px;
+        height: 0px;
+    }
+    
+    .temperatura-img {
+        max-width: 40px;
+        max-height: 40px;
+    }
+    .acqua-img {
+        max-width: 40px;
+        max-height: 40px;
+    }
+    .umidita-img {
+        max-width: 40px;
+        max-height: 40px;
+    }
+    
+    
+}

@@ -7,16 +7,43 @@
     <link rel="stylesheet" href="./style/style.css">
 </head>
 <body>
-    
+    <p class="p1"></p>
+    <p class="p2"></p>
     <div class="container">
         <h1 class="title">Dati raccolti dalla serra</h1>
         <hr class="separator">
         <canvas id="myChart"></canvas>
     </div>
+    <div class="advices">
+        <h1>azioni</h1>
+        <hr class="separator">
+        <div class="item">
+            <img src="./img/water-drop.png" alt="Image 1">
+            <div>
+                <h2>Acqua nel terreno</h2>
+                <img class="acqua-img">
+            </div>
+        </div>
+        <div class="item">
+            <img src="./img/thermometer.png" alt="Image 2">
+            <div>
+                <h2>Temperatura</h2>
+                <img class="temperatura-img">
+            </div>
+        </div>
+        <div class="item">
+            <img src="./img/humidity.png" alt="Image 3">
+            <div>
+                <h2>Umidità</h2>
+                <img class="umidita-img">
+            </div>
+        </div>
+    </div>
+    
 
     <script src="./chart.min.js"></script>
 
-    <script src="./graph.js"></script>
+    <script type="module" src="./graph.mjs"></script>
 
     
 </body>
