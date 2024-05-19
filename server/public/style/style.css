@@ -1,0 +1,25 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #166D4E;
+}
+
+@font-face {
+    font-family: 'VayuSans'; 
+    src: url('./../fonts/VayuSans-ExtraBold.ttf') format('ttf');
+}
+.container {
+    border: 1px solid #ccc;
+    border-radius: 1%;
+    padding: 20px;
+    text-align: center;
+    width: 100dvh;
+    background-color: white;
+}
+.container > h1 {
+    font-family: 'VayuSans', Arial, sans-serif;
+}
+
